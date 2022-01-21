@@ -34,13 +34,13 @@ CREATE TABLE zone_geo(
 );
 
 CREATE TABLE dispo(
-   id_aidant INTEGER,
    id_dispo SERIAL,
    jour_debut VARCHAR(50) NOT NULL,
    jour_fin VARCHAR(50) NOT NULL,
    debut TIME NOT NULL,
    fin TIME NOT NULL,
-   CONSTRAINT PK_dispo PRIMARY KEY(id_aidant, id_dispo),
+   id_aidant INTEGER NOT NULL,
+   CONSTRAINT PK_dispo PRIMARY KEY(id_dispo),
    CONSTRAINT AK_dispo_ident UNIQUE(jour_debut, jour_fin, debut, fin),
    CONSTRAINT FK_dispo_aidants FOREIGN KEY(id_aidant) REFERENCES aidants(id_aidant)
 );
@@ -53,34 +53,35 @@ CREATE TABLE competences(
 );
 
 CREATE TABLE reservation(
-   id_demandeur INTEGER,
-   id_aidant INTEGER,
    id_reservation SERIAL,
    code VARCHAR(50) NOT NULL,
    statut VARCHAR(50) NOT NULL,
    jour DATE NOT NULL,
    debut TIME NOT NULL,
    fin TIME NOT NULL,
-   competence VARCHAR(50) NOT NULL,
-   CONSTRAINT PK_reservation PRIMARY KEY(id_demandeur, id_aidant, id_reservation),
+   id_comp INTEGER NOT NULL,
+   id_demandeur INTEGER NOT NULL,
+   id_aidant INTEGER NOT NULL,
+   CONSTRAINT PK_reservation PRIMARY KEY(id_reservation),
    CONSTRAINT AK_reservation UNIQUE(code),
+   CONSTRAINT FK_reservation_competences FOREIGN KEY(id_comp) REFERENCES competences(id_comp),
    CONSTRAINT FK_reservation_demandeurs FOREIGN KEY(id_demandeur) REFERENCES demandeurs(id_demandeur),
    CONSTRAINT FK_reservation_aidants FOREIGN KEY(id_aidant) REFERENCES aidants(id_aidant)
 );
 
-CREATE TABLE agir(
+CREATE TABLE agissant(
    id_aidant INTEGER,
    id_zone_geo INTEGER,
-   CONSTRAINT PK_agir PRIMARY KEY(id_aidant, id_zone_geo),
-   CONSTRAINT FK_agir_aidants FOREIGN KEY(id_aidant) REFERENCES aidants(id_aidant),
-   CONSTRAINT FK_agir_zone_geo FOREIGN KEY(id_zone_geo) REFERENCES zone_geo(id_zone_geo)
+   CONSTRAINT PK_agissant PRIMARY KEY(id_aidant, id_zone_geo),
+   CONSTRAINT FK_agissant_aidants FOREIGN KEY(id_aidant) REFERENCES aidants(id_aidant),
+   CONSTRAINT FK_agissant_zone_geo FOREIGN KEY(id_zone_geo) REFERENCES zone_geo(id_zone_geo)
 );
 
-CREATE TABLE pouvoir_faire(
+CREATE TABLE pouvant_faire(
    id_aidant INTEGER,
    id_comp INTEGER,
    taux VARCHAR(50) NOT NULL,
-   CONSTRAINT PK_pouvoir_faire PRIMARY KEY(id_aidant, id_comp),
-   CONSTRAINT FK_pouvoir_faire_aidants FOREIGN KEY(id_aidant) REFERENCES aidants(id_aidant),
-   CONSTRAINT FK_pouvoir_faire_competences FOREIGN KEY(id_comp) REFERENCES competences(id_comp)
+   CONSTRAINT PK_pouvant_faire PRIMARY KEY(id_aidant, id_comp),
+   CONSTRAINT FK_pouvant_faire_aidants FOREIGN KEY(id_aidant) REFERENCES aidants(id_aidant),
+   CONSTRAINT FK_pouvant_faire_competences FOREIGN KEY(id_comp) REFERENCES competences(id_comp)
 );

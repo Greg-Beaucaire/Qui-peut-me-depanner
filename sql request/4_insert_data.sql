@@ -80,7 +80,7 @@ VALUES
 
 -- Ensuite on crée les données dans la table relationnel agir qui lie les aidants et leurs zones géographiques d'activité
 INSERT INTO 
-  public.agir(id_aidant, id_zone_geo)
+  public.agissant(id_aidant, id_zone_geo)
 VALUES
   (1, 1),
   (2, 1),
@@ -100,7 +100,7 @@ VALUES
 
 -- Ensuite on crée les données dans la table relationnel pouvoir_faire qui lie les aidants et leurs compétences
 INSERT INTO 
-  public.pouvoir_faire(id_aidant, id_comp, taux)
+  public.pouvant_faire(id_aidant, id_comp, taux)
 VALUES
   (1, 1, '9.5'),
   (2, 1, '8'),
@@ -120,8 +120,8 @@ VALUES
 
 -- Ensuite on crée les données dans la table reservation
 INSERT INTO
-  public.reservation(id_demandeur, id_aidant, code, statut, jour, debut, fin, competence)
+  public.reservation(id_demandeur, id_aidant, id_comp, code, statut, jour, debut, fin)
 VALUES
-  (1, 4, 'SGLUBUFLUK420', 'en attente', '28-JAN-2022', '12:00:00', '14:00:00', 'Japonais'),
-  (2, 5, 'EORZEA90AZEP', 'refusée', '15-JAN-2022', '02:00:00', '04:00:00', 'Anglais'),
-  (3, 6, 'ZQSD098AZERTY', 'acceptée', '22-JAN-2022', '16:00:00', '17:00:00', 'Bricolage');
+  (1, 4, 3,'SGLUBUFLUK420', 'en attente', '28-JAN-2022', '12:00:00', '14:00:00'),
+  (2, 5, 2,'EORZEA90AZEP', 'refusée', '15-JAN-2022', '02:00:00', '04:00:00'),
+  (3, 6, 5,'ZQSD098AZERTY', 'acceptée', '22-JAN-2022', '16:00:00', '17:00:00');
